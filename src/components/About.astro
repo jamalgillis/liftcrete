@@ -1,0 +1,75 @@
+---
+// About section component
+const benefits = [
+  {
+    icon: "piggy-bank",
+    title: "Save 30-50%",
+    description: "Less expensive than traditional concrete replacement"
+  },
+  {
+    icon: "zap",
+    title: "Immediate Use",
+    description: "Surface ready for foot or vehicle traffic right after repair"
+  },
+  {
+    icon: "leaf",
+    title: "Eco-Friendly",
+    description: "Keeps old concrete out of landfills, water-resistant foam"
+  },
+  {
+    icon: "shield-check",
+    title: "Long-Lasting",
+    description: "Polyurethane resin never loses density or shrinks"
+  }
+];
+---
+
+<section id="about" class="py-24 lg:py-32 bg-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <!-- Image -->
+      <div class="relative reveal">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80"
+             alt="Concrete lifting work"
+             class="w-full aspect-[4/3] object-cover" />
+        <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-accent hidden lg:flex items-center justify-center">
+          <div class="text-center text-white">
+            <span class="block text-3xl font-heading font-bold">30-50%</span>
+            <span class="text-sm uppercase tracking-wider">Savings</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="reveal">
+        <p class="text-accent font-medium uppercase tracking-widest mb-4">Why Choose Us</p>
+        <h2 class="text-4xl md:text-5xl font-heading font-bold text-primary mb-6">
+          Raise It.<br>Don't Replace It.
+        </h2>
+        <div class="divider mb-8"></div>
+        <p class="text-muted text-lg leading-relaxed mb-8">
+          Liftcrete uses eco-friendly polyurethane foam injection to lift and level your concrete—saving you money, time, and keeping old concrete out of landfills.
+        </p>
+
+        <div class="space-y-4 mb-10">
+          {benefits.map((benefit) => (
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-accent/10 flex items-center justify-center flex-shrink-0">
+                <i data-lucide={benefit.icon} class="w-5 h-5 text-accent"></i>
+              </div>
+              <div>
+                <h4 class="font-heading font-semibold mb-1">{benefit.title}</h4>
+                <p class="text-muted text-sm">{benefit.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <a href="#contact" class="btn-primary inline-flex items-center gap-2">
+          Get Free Estimate
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

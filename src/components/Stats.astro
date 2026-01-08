@@ -1,0 +1,22 @@
+---
+// Stats section component
+const stats = [
+  { value: "30-50%", label: "Cost Savings" },
+  { value: "5/8\"", label: "Drill Hole Size" },
+  { value: "0", label: "Days Downtime" },
+  { value: "100%", label: "Water Resistant" }
+];
+---
+
+<section class="py-20 bg-white border-y border-neutral-200">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 reveal-stagger">
+      {stats.map((stat) => (
+        <div class="text-center">
+          <div class="stat-number">{stat.value}</div>
+          <p class="text-muted uppercase tracking-wider text-sm mt-2">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

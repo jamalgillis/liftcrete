@@ -1,0 +1,51 @@
+---
+// Navigation component
+---
+
+<!-- Navigation -->
+<nav class="nav-fixed fixed top-0 left-0 right-0 z-50 bg-transparent">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2">
+        <div class="w-10 h-10 bg-accent flex items-center justify-center">
+          <i data-lucide="triangle" class="w-6 h-6 text-white"></i>
+        </div>
+        <span class="font-heading font-bold text-xl text-white">LIFTCRETE</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="/#services" class="nav-link text-white/90 hover:text-white text-sm font-medium uppercase tracking-wider">Services</a>
+        <a href="/projects" class="nav-link text-white/90 hover:text-white text-sm font-medium uppercase tracking-wider">Projects</a>
+        <a href="/#process" class="nav-link text-white/90 hover:text-white text-sm font-medium uppercase tracking-wider">How It Works</a>
+        <a href="/#about" class="nav-link text-white/90 hover:text-white text-sm font-medium uppercase tracking-wider">About</a>
+        <a href="/#contact" class="btn-primary">Get Quote</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" class="md:hidden text-white">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="mobile-menu fixed inset-0 z-50 bg-dark">
+  <div class="flex flex-col h-full p-6">
+    <div class="flex items-center justify-between mb-12">
+      <span class="font-heading font-bold text-xl text-white">LIFTCRETE</span>
+      <button id="mobile-menu-close" class="text-white">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+    </div>
+    <div class="flex flex-col gap-6">
+      <a href="/#services" class="text-2xl font-heading text-white">Services</a>
+      <a href="/projects" class="text-2xl font-heading text-white">Projects</a>
+      <a href="/#process" class="text-2xl font-heading text-white">How It Works</a>
+      <a href="/#about" class="text-2xl font-heading text-white">About</a>
+      <a href="/#contact" class="btn-primary text-center mt-4">Get Quote</a>
+    </div>
+  </div>
+</div>

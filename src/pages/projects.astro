@@ -1,0 +1,204 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import PageHero from '../components/PageHero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import CTA from '../components/CTA.astro';
+import Footer from '../components/Footer.astro';
+import { projects } from '../data/projects';
+
+const categories = ["All", "Residential", "Commercial", "Industrial"];
+---
+
+<Layout title="Our Projects | Liftcrete">
+  <Navigation />
+
+  <PageHero
+    title="Our Projects"
+    subtitle="Explore our portfolio of concrete lifting and leveling projects across Central Texas. From residential driveways to industrial facilities."
+    breadcrumb={[{ label: "Projects", href: "/projects" }]}
+  />
+
+  <!-- Projects Section -->
+  <section class="py-20 lg:py-28 bg-neutral-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <!-- Filter Tabs -->
+      <div class="flex flex-wrap justify-center gap-2 mb-12">
+        {categories.map((category, index) => (
+          <button
+            class={`filter-tab px-6 py-3 font-heading font-semibold text-sm uppercase tracking-wider transition-all duration-300 ${index === 0 ? 'bg-accent text-white' : 'bg-white text-primary border border-neutral-200 hover:bg-accent/10'}`}
+            data-category={category.toLowerCase()}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="projects-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map((project) => (
+          <div class="project-item" data-category={project.category.toLowerCase()}>
+            <ProjectCard
+              image={project.image}
+              alt={project.alt}
+              category={project.category}
+              title={project.title}
+              description={project.description}
+              href={`/projects/${project.slug}`}
+            />
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <CTA />
+  <Footer />
+</Layout>
+
+<style>
+  .filter-tab {
+    min-width: 120px;
+  }
+
+  .project-item {
+    transition: all 0.4s ease;
+  }
+
+  .project-item.hidden {
+    display: none;
+  }
+
+  .project-item.fade-out {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  .project-item.fade-in {
+    animation: fadeInScale 0.4s ease-out forwards;
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+</style>
+
+<script>
+  // Filter functionality
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  const projectItems = document.querySelectorAll('.project-item');
+
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const category = tab.getAttribute('data-category');
+
+      // Update active tab
+      filterTabs.forEach(t => {
+        t.classList.remove('bg-accent', 'text-white');
+        t.classList.add('bg-white', 'text-primary', 'border', 'border-neutral-200');
+      });
+      tab.classList.remove('bg-white', 'text-primary', 'border', 'border-neutral-200');
+      tab.classList.add('bg-accent', 'text-white');
+
+      // Filter projects
+      projectItems.forEach((item, index) => {
+        const itemCategory = item.getAttribute('data-category');
+
+        if (category === 'all' || itemCategory === category) {
+          item.classList.remove('hidden', 'fade-out');
+          item.classList.add('fade-in');
+          item.style.animationDelay = `${index * 50}ms`;
+        } else {
+          item.classList.add('fade-out');
+          setTimeout(() => {
+            item.classList.add('hidden');
+            item.classList.remove('fade-out');
+          }, 300);
+        }
+      });
+    });
+  });
+
+  // Navigation scroll effect
+  const nav = document.querySelector('.nav-fixed');
+  if (nav) {
+    // Start with scrolled state since we're on an inner page
+    nav.classList.add('nav-scrolled');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        nav.classList.add('nav-scrolled');
+      } else {
+        nav.classList.add('nav-scrolled'); // Keep it solid on inner pages
+      }
+    });
+  }
+
+  // Mobile menu
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (mobileMenuBtn && mobileMenuClose && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    mobileMenuClose.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+
+  // Back to top button
+  const backToTop = document.getElementById('back-to-top');
+
+  if (backToTop) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal, .reveal-stagger');
+
+  const revealOnScroll = () => {
+    reveals.forEach(el => {
+      const windowHeight = window.innerHeight;
+      const elementTop = el.getBoundingClientRect().top;
+      const elementVisible = 100;
+
+      if (elementTop < windowHeight - elementVisible) {
+        el.classList.add('active');
+      }
+    });
+  };
+
+  window.addEventListener('scroll', revealOnScroll);
+  revealOnScroll();
+</script>

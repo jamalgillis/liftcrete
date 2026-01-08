@@ -1,0 +1,343 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navigation from '../../components/Navigation.astro';
+import PageHero from '../../components/PageHero.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import CTA from '../../components/CTA.astro';
+import Footer from '../../components/Footer.astro';
+import { projects, getProjectBySlug, getRelatedProjects } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map(project => ({
+    params: { slug: project.slug },
+    props: { project }
+  }));
+}
+
+const { slug } = Astro.params;
+const { project } = Astro.props;
+
+if (!project) {
+  return Astro.redirect('/projects');
+}
+
+const relatedProjects = getRelatedProjects(project.slug, project.category, 3);
+---
+
+<Layout title={`${project.title} | Liftcrete Projects`}>
+  <Navigation />
+
+  <!-- Page Hero -->
+  <section class="relative bg-dark pt-32 pb-16 lg:pt-40 lg:pb-20 overflow-hidden">
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute top-0 right-0 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <!-- Breadcrumb -->
+      <nav class="mb-6 animate-fade-in-up opacity-0" style="animation-delay: 200ms; animation-fill-mode: forwards;">
+        <ol class="flex items-center gap-2 text-sm">
+          <li><a href="/" class="text-white/60 hover:text-accent transition-colors">Home</a></li>
+          <li class="text-white/40">/</li>
+          <li><a href="/projects" class="text-white/60 hover:text-accent transition-colors">Projects</a></li>
+          <li class="text-white/40">/</li>
+          <li><span class="text-accent">{project.title}</span></li>
+        </ol>
+      </nav>
+
+      <!-- Category Badge -->
+      <span class="inline-block bg-accent text-white text-xs font-semibold uppercase tracking-wider px-3 py-1 mb-4 animate-fade-in-up opacity-0" style="animation-delay: 300ms; animation-fill-mode: forwards;">
+        {project.category}
+      </span>
+
+      <!-- Title -->
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white animate-fade-in-up opacity-0" style="animation-delay: 400ms; animation-fill-mode: forwards;">
+        {project.title}
+      </h1>
+    </div>
+  </section>
+
+  <!-- Image Gallery -->
+  <section class="py-12 lg:py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <!-- Main Image -->
+      <div class="mb-4 overflow-hidden">
+        <img
+          id="main-image"
+          src={project.images[0]}
+          alt={project.alt}
+          class="w-full aspect-[16/9] object-cover animate-fade-in opacity-0"
+          style="animation-delay: 200ms; animation-fill-mode: forwards;"
+        />
+      </div>
+
+      <!-- Thumbnails -->
+      <div class="grid grid-cols-4 gap-4">
+        {project.images.map((image, index) => (
+          <button
+            class={`thumbnail-btn aspect-[4/3] overflow-hidden border-2 transition-all duration-300 ${index === 0 ? 'border-accent' : 'border-transparent hover:border-accent/50'}`}
+            data-image={image}
+          >
+            <img
+              src={image}
+              alt={`${project.title} - Image ${index + 1}`}
+              class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Project Details -->
+  <section class="py-16 lg:py-24 bg-neutral-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-3 gap-12 lg:gap-16">
+        <!-- Overview (2 columns) -->
+        <div class="lg:col-span-2 reveal">
+          <h2 class="text-3xl font-heading font-bold text-primary mb-6">Project Overview</h2>
+          <div class="divider mb-8"></div>
+
+          <div class="prose prose-lg max-w-none text-muted mb-10">
+            {project.fullDescription.split('\n\n').map((paragraph) => (
+              <p class="mb-4 leading-relaxed">{paragraph}</p>
+            ))}
+          </div>
+
+          <!-- Achievements -->
+          <h3 class="text-xl font-heading font-bold text-primary mb-4">Key Achievements</h3>
+          <ul class="space-y-3">
+            {project.achievements.map((achievement) => (
+              <li class="flex items-start gap-3">
+                <div class="w-6 h-6 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <i data-lucide="check" class="w-4 h-4 text-accent"></i>
+                </div>
+                <span class="text-muted">{achievement}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="reveal" style="animation-delay: 200ms;">
+          <div class="bg-white p-8 border border-neutral-200 sticky top-28">
+            <h3 class="text-xl font-heading font-bold text-primary mb-6">Project Details</h3>
+            <div class="divider mb-6"></div>
+
+            <div class="space-y-6">
+              <!-- Category -->
+              <div class="detail-item">
+                <div class="flex items-center gap-3 mb-2">
+                  <i data-lucide="folder" class="w-5 h-5 text-accent"></i>
+                  <span class="text-sm text-muted uppercase tracking-wider">Category</span>
+                </div>
+                <p class="font-semibold text-primary pl-8">{project.category}</p>
+              </div>
+
+              <!-- Location -->
+              <div class="detail-item">
+                <div class="flex items-center gap-3 mb-2">
+                  <i data-lucide="map-pin" class="w-5 h-5 text-accent"></i>
+                  <span class="text-sm text-muted uppercase tracking-wider">Location</span>
+                </div>
+                <p class="font-semibold text-primary pl-8">{project.details.location}</p>
+              </div>
+
+              <!-- Size -->
+              <div class="detail-item">
+                <div class="flex items-center gap-3 mb-2">
+                  <i data-lucide="ruler" class="w-5 h-5 text-accent"></i>
+                  <span class="text-sm text-muted uppercase tracking-wider">Project Size</span>
+                </div>
+                <p class="font-semibold text-primary pl-8">{project.details.size}</p>
+              </div>
+
+              <!-- Duration -->
+              <div class="detail-item">
+                <div class="flex items-center gap-3 mb-2">
+                  <i data-lucide="clock" class="w-5 h-5 text-accent"></i>
+                  <span class="text-sm text-muted uppercase tracking-wider">Duration</span>
+                </div>
+                <p class="font-semibold text-primary pl-8">{project.details.duration}</p>
+              </div>
+
+              <!-- Completed -->
+              <div class="detail-item">
+                <div class="flex items-center gap-3 mb-2">
+                  <i data-lucide="calendar" class="w-5 h-5 text-accent"></i>
+                  <span class="text-sm text-muted uppercase tracking-wider">Completed</span>
+                </div>
+                <p class="font-semibold text-primary pl-8">{project.details.completed}</p>
+              </div>
+            </div>
+
+            <!-- CTA Button -->
+            <a href="/#contact" class="btn-primary w-full mt-8 text-center">
+              Get a Free Quote
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Projects -->
+  {relatedProjects.length > 0 && (
+    <section class="py-16 lg:py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center mb-12 reveal">
+          <h2 class="text-3xl md:text-4xl font-heading font-bold text-primary mb-4">Related Projects</h2>
+          <div class="divider mx-auto"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 reveal-stagger">
+          {relatedProjects.map((relatedProject) => (
+            <ProjectCard
+              image={relatedProject.image}
+              alt={relatedProject.alt}
+              category={relatedProject.category}
+              title={relatedProject.title}
+              description={relatedProject.description}
+              href={`/projects/${relatedProject.slug}`}
+            />
+          ))}
+        </div>
+
+        <div class="text-center mt-12">
+          <a href="/projects" class="inline-flex items-center gap-2 text-accent font-semibold uppercase tracking-wider hover:gap-3 transition-all">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            Back to All Projects
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CTA />
+  <Footer />
+</Layout>
+
+<style>
+  .thumbnail-btn {
+    cursor: pointer;
+  }
+
+  .thumbnail-btn.active {
+    border-color: #d97706;
+  }
+
+  .detail-item {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideIn 0.4s ease-out forwards;
+  }
+
+  .detail-item:nth-child(1) { animation-delay: 100ms; }
+  .detail-item:nth-child(2) { animation-delay: 200ms; }
+  .detail-item:nth-child(3) { animation-delay: 300ms; }
+  .detail-item:nth-child(4) { animation-delay: 400ms; }
+  .detail-item:nth-child(5) { animation-delay: 500ms; }
+
+  @keyframes slideIn {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  #main-image {
+    transition: opacity 0.4s ease;
+  }
+</style>
+
+<script>
+  // Image Gallery
+  const mainImage = document.getElementById('main-image') as HTMLImageElement;
+  const thumbnails = document.querySelectorAll('.thumbnail-btn');
+
+  thumbnails.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      const newSrc = thumb.getAttribute('data-image');
+      if (newSrc && mainImage) {
+        // Fade out
+        mainImage.style.opacity = '0';
+
+        setTimeout(() => {
+          mainImage.src = newSrc;
+          // Fade in
+          mainImage.style.opacity = '1';
+        }, 200);
+
+        // Update active state
+        thumbnails.forEach(t => t.classList.remove('border-accent'));
+        thumb.classList.add('border-accent');
+      }
+    });
+  });
+
+  // Navigation scroll effect
+  const nav = document.querySelector('.nav-fixed');
+  if (nav) {
+    nav.classList.add('nav-scrolled');
+  }
+
+  // Mobile menu
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (mobileMenuBtn && mobileMenuClose && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    mobileMenuClose.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+
+  // Back to top button
+  const backToTop = document.getElementById('back-to-top');
+
+  if (backToTop) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal, .reveal-stagger');
+
+  const revealOnScroll = () => {
+    reveals.forEach(el => {
+      const windowHeight = window.innerHeight;
+      const elementTop = el.getBoundingClientRect().top;
+      const elementVisible = 100;
+
+      if (elementTop < windowHeight - elementVisible) {
+        el.classList.add('active');
+      }
+    });
+  };
+
+  window.addEventListener('scroll', revealOnScroll);
+  revealOnScroll();
+</script>

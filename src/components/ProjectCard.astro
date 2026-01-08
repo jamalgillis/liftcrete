@@ -1,0 +1,52 @@
+---
+interface Props {
+  image: string;
+  alt: string;
+  category: string;
+  title: string;
+  description: string;
+  href?: string;
+}
+
+const { image, alt, category, title, description, href = "#" } = Astro.props;
+---
+
+<article class="project-card-detailed bg-white border border-neutral-200 overflow-hidden group">
+  <!-- Image -->
+  <div class="relative aspect-[4/3] overflow-hidden">
+    <img
+      src={image}
+      alt={alt}
+      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+    />
+    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+    <span class="absolute top-4 left-4 bg-accent text-white text-xs font-semibold uppercase tracking-wider px-3 py-1">
+      {category}
+    </span>
+  </div>
+
+  <!-- Content -->
+  <div class="p-6">
+    <h3 class="text-xl font-heading font-bold text-primary mb-2 group-hover:text-accent transition-colors">
+      {title}
+    </h3>
+    <p class="text-muted text-sm leading-relaxed mb-4">
+      {description}
+    </p>
+    <a href={href} class="inline-flex items-center gap-2 text-accent font-semibold text-sm uppercase tracking-wider group/link">
+      View Details
+      <i data-lucide="arrow-right" class="w-4 h-4 transition-transform duration-200 group-hover/link:translate-x-1"></i>
+    </a>
+  </div>
+</article>
+
+<style>
+  .project-card-detailed {
+    transition: all 0.4s ease;
+  }
+
+  .project-card-detailed:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+</style>

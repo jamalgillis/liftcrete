@@ -1,0 +1,93 @@
+---
+// Contact section component
+const contactInfo = [
+  {
+    icon: "map-pin",
+    title: "Location",
+    value: "1453 Old Mexia Rd, Waco, TX 76705"
+  },
+  {
+    icon: "map",
+    title: "Service Area",
+    value: "Central Texas"
+  },
+  {
+    icon: "mail",
+    title: "Email",
+    value: "info@liftcrete.com"
+  }
+];
+---
+
+<section id="contact" class="py-24 lg:py-32 bg-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20">
+      <!-- Contact Info -->
+      <div class="reveal">
+        <p class="text-accent font-medium uppercase tracking-widest mb-4">Get In Touch</p>
+        <h2 class="text-4xl md:text-5xl font-heading font-bold text-primary mb-6">
+          Let's Discuss Your Project
+        </h2>
+        <div class="divider mb-8"></div>
+        <p class="text-muted text-lg leading-relaxed mb-10">
+          Serving Central Texas with professional concrete raising and leveling. Reach out for a free project assessment.
+        </p>
+
+        <div class="space-y-6">
+          {contactInfo.map((info) => (
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-neutral-100 flex items-center justify-center">
+                <i data-lucide={info.icon} class="w-5 h-5 text-accent"></i>
+              </div>
+              <div>
+                <h4 class="font-heading font-semibold">{info.title}</h4>
+                <p class="text-muted">{info.value}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="reveal">
+        <form class="bg-neutral-50 p-8 lg:p-10 border border-neutral-200">
+          <div class="grid sm:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label class="block text-sm font-medium mb-2">First Name</label>
+              <input type="text"
+                     class="w-full px-4 py-3 bg-white border border-neutral-300 font-body text-sm transition-all"
+                     placeholder="John" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Last Name</label>
+              <input type="text"
+                     class="w-full px-4 py-3 bg-white border border-neutral-300 font-body text-sm transition-all"
+                     placeholder="Doe" />
+            </div>
+          </div>
+          <div class="mb-6">
+            <label class="block text-sm font-medium mb-2">Email</label>
+            <input type="email"
+                   class="w-full px-4 py-3 bg-white border border-neutral-300 font-body text-sm transition-all"
+                   placeholder="john@example.com" />
+          </div>
+          <div class="mb-6">
+            <label class="block text-sm font-medium mb-2">Phone</label>
+            <input type="tel"
+                   class="w-full px-4 py-3 bg-white border border-neutral-300 font-body text-sm transition-all"
+                   placeholder="(555) 123-4567" />
+          </div>
+          <div class="mb-6">
+            <label class="block text-sm font-medium mb-2">Project Details</label>
+            <textarea rows="4"
+                      class="w-full px-4 py-3 bg-white border border-neutral-300 font-body text-sm transition-all resize-none"
+                      placeholder="Tell us about your project..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary w-full">
+            Submit Request
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

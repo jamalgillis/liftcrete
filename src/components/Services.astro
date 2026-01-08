@@ -1,0 +1,57 @@
+---
+// Services section component
+const services = [
+  {
+    icon: "car",
+    title: "Driveways",
+    description: "Lift and level sunken driveways quickly—surface ready for immediate vehicle traffic after repair."
+  },
+  {
+    icon: "footprints",
+    title: "Sidewalks",
+    description: "Eliminate trip hazards and restore uneven sidewalks to safe, level condition."
+  },
+  {
+    icon: "armchair",
+    title: "Patios",
+    description: "Restore your outdoor living space with precise patio leveling that lasts."
+  },
+  {
+    icon: "waves",
+    title: "Pool Decks",
+    description: "Level pool decks safely with water-resistant polyurethane foam that won't degrade."
+  },
+  {
+    icon: "warehouse",
+    title: "Garage Floors",
+    description: "Fix sunken or uneven garage floors without the mess of full concrete replacement."
+  },
+  {
+    icon: "building",
+    title: "Commercial Foundations",
+    description: "Industrial-strength foundation stabilization for commercial and business properties."
+  }
+];
+---
+
+<section id="services" class="py-24 lg:py-32 bg-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="text-center mb-16 reveal">
+      <p class="text-accent font-medium uppercase tracking-widest mb-4">What We Do</p>
+      <h2 class="text-4xl md:text-5xl font-heading font-bold text-primary mb-6">Our Services</h2>
+      <div class="divider mx-auto"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 reveal-stagger">
+      {services.map((service) => (
+        <div class="service-card bg-neutral-50 p-8 border border-neutral-200">
+          <div class="service-icon w-16 h-16 bg-neutral-200 flex items-center justify-center mb-6">
+            <i data-lucide={service.icon} class="w-8 h-8 text-primary"></i>
+          </div>
+          <h3 class="text-xl font-heading font-bold mb-4">{service.title}</h3>
+          <p class="text-muted leading-relaxed">{service.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

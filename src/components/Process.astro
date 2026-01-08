@@ -1,0 +1,42 @@
+---
+// Process (How It Works) section component
+const steps = [
+  {
+    number: 1,
+    title: "Drill",
+    description: "Strategically drill 5/8\" holes (the size of a dime) through the sunken slab."
+  },
+  {
+    number: 2,
+    title: "Pump & Lift",
+    description: "Inject self-expanding polyurethane resin under the slab to fill voids and raise it to its original position."
+  },
+  {
+    number: 3,
+    title: "Patch",
+    description: "Patch the small drill holes with fast-setting concrete for a clean, nearly invisible finish."
+  }
+];
+---
+
+<section id="process" class="py-24 lg:py-32 bg-neutral-50">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="text-center mb-16 reveal">
+      <p class="text-accent font-medium uppercase tracking-widest mb-4">Our Process</p>
+      <h2 class="text-4xl md:text-5xl font-heading font-bold text-primary mb-6">How It Works</h2>
+      <div class="divider mx-auto"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 lg:gap-12 reveal-stagger">
+      {steps.map((step) => (
+        <div class="text-center">
+          <div class="w-20 h-20 bg-accent text-white flex items-center justify-center mx-auto mb-6">
+            <span class="text-3xl font-heading font-bold">{step.number}</span>
+          </div>
+          <h3 class="text-xl font-heading font-bold mb-4">{step.title}</h3>
+          <p class="text-muted leading-relaxed">{step.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
